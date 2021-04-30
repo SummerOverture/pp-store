@@ -1,0 +1,15 @@
+{
+  "name": "pp-store",
+  "version": "1.0.0",
+  "description": "轻量级React状态管理工具",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@g.hz.netease.com:22222/yanglu04/pp-store.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
