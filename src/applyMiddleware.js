@@ -1,4 +1,4 @@
-import defalutMiddlewares from '../middlewares';
+import defalutMiddlewares from './middlewares';
 
 function compoese(middlewares, store) {
 	return middlewares

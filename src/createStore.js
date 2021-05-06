@@ -11,8 +11,20 @@ export default function createStore(opts = {}) {
 	let shareState = initialState;
 	const subs = [];
 
+	const listeners = [];
+
 	function getShareState() {
 		return shareState;
+	}
+
+	function subscribe(sub) {
+		listeners.push(sub);
+
+		function unSubscribe() {
+			listeners.splice(listeners.indexOf(sub), 1);
+		}
+
+		return unSubscribe;
 	}
 
 	/**
@@ -57,6 +69,10 @@ export default function createStore(opts = {}) {
 			});
 
 			shareState = values;
+
+			listeners.forEach((sub) => {
+				sub();
+			});
 		}
 	}
 
@@ -65,9 +81,12 @@ export default function createStore(opts = {}) {
 		getShareState,
 	});
 
-	return {
+	const store = {
 		getStore,
 		setStore,
+		subscribe,
 		getShareState,
 	};
+
+	return store;
 }

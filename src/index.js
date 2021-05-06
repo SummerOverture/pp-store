@@ -3,16 +3,19 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import createStore from './createStore';
 
-// 默认比较函数
 const YsStore = {
+  // 子store合集
 	stores: {},
+  // 配置YsStore 主要用来配置middlewares
 	config(opts) {
 		YsStore = {
 			...YsStore,
 			opts,
 		};
 	},
+  // applyMiddleware时传入的中间件， 默认加载logger
 	middlewares: ['logger'],
+  // store创建函数
 	create(opts) {
 		const { stores } = YsStore;
 		const { reducer, initialState, name } = opts;
