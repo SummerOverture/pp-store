@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
-import _ from 'lodash';
 import createStore from './createStore';
 
 const YsStore = {
