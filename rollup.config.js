@@ -1,6 +1,6 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import babel, { getBabelOutputPlugin } from '@rollup/plugin-babel';
+import babel from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 
@@ -16,14 +16,14 @@ export default [
       {
         file: 'dist/index.js',
         format: 'umd',
-        name: 'ppStore',
+        name: 'Ppstore',
       },
       {
         file: 'es/index.js',
         format: 'es',
       },
     ],
-    external: ['react'],
+    external: ['react', /@babel\/runtime/],
     plugins: [
       nodeResolve({
         extensions: ['.ts', '.js'],
@@ -31,7 +31,7 @@ export default [
       commonjs(),
       typescript(),
       babel({
-        plugins: ['@babel/plugin-transform-runtime'],
+        plugins: [['@babel/plugin-transform-runtime']],
         babelHelpers: 'runtime',
       }),
     ],
@@ -53,7 +53,7 @@ export default [
         format: 'es',
       },
     ],
-    external: ['react'],
+    external: ['react', /@babel\/runtime/],
     plugins: [
       nodeResolve({
         extensions: ['.ts', '.js'],

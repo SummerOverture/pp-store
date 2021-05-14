@@ -38,3 +38,11 @@ export function shallowEqual(objA: any, objB: any): boolean {
 
   return true;
 }
+
+export function logError(msg: string) {
+  throw new Error(`[ppstore error]: ${msg}`);
+}
+
+export function logWarn(msg: string) {
+  console.warn(`[ppstore warn]: ${msg}`);
+}

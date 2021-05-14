@@ -1,9 +1,10 @@
 {
-  "name": "ppStore",
+  "name": "ppstore",
   "version": "1.0.0",
   "description": "轻量级React状态管理工具",
   "scripts": {
     "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c -w rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,11 +26,10 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
-    "@babel/plugin-transform-async-to-generator": "^7.13.0",
     "@babel/plugin-transform-runtime": "^7.13.15",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-typescript": "^7.13.0",
+    "@babel/runtime": "^7.14.0",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^18.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -40,5 +40,6 @@
   },
   "peerDependencies": {
     "react": ">= 16.6.3"
-  }
+  },
+  "dependencies": {}
 }

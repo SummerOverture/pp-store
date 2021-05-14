@@ -1,9 +1,9 @@
-import ppStore from 'pp-store';
+import ppStore from 'ppstore';
 
 export const TYPES = {
-  SET_COUNT: 'SET_COUNT',
-  DECRESE: 'DECRESE',
-  INCRESE: 'INCRESE',
+  SET_COUNT: 'A_SET_COUNT',
+  DECRESE: 'A_DECRESE',
+  INCRESE: 'A_INCRESE',
 };
 
 const sleep = s =>
@@ -45,17 +45,19 @@ const reducer = (state, action) => {
       throw new Error();
   }
 };
+
 const counterStore = ppStore.create({
   initialState,
   reducer,
   actions,
+  middlewares: ['logger'],
   name: 'counterStore',
 });
 
 export default counterStore;
 
-export function useCounterStore({ selector, isEqualState }) {
-  const state = counterStore.getStore({ selector, isEqualState });
-  const setStore = counterStore.setStore;
+export function useCounterStore(selector, isEqualFn) {
+  const state = counterStore.useSelector(selector, isEqualFn);
+  const setStore = counterStore.useDispatch;
   return [state, setStore];
 }

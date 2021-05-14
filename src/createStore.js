@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import applyMiddleware from './applyMiddleware';
-import { shallowEqual as isEqual } from './utils';
+import { shallowEqual as isEqual, logError } from './utils';
 
 export default function createStore(opts = {}) {
   const { initialState, reducer, actions, middlewares } = opts;
   let shareState = initialState;
-  const subs = [];
 
+  const subs = [];
   const listeners = [];
 
   function getShareState() {
@@ -23,17 +23,23 @@ export default function createStore(opts = {}) {
     return unSubscribe;
   }
 
+  function isAction(type) {
+    if (type.startsWith('A') || type in actions) {
+      return true;
+    }
+  }
+
   /**
    * @params {selector} 用来获取指定state 同时会用来做性能优化
    * @params {isEqualState} 复本的更新策略函数
    */
-  function getStore({ selector = state => state, isEqualState }) {
+  function useSelector(selector = state => state, isEqualState) {
     const trackState = selector(shareState);
     const [state, setState] = useState(trackState);
     const sub = {
       update: value => {
         const nextTrackState = selector(value);
-        // 使用指定或者默认eaual算法 决定copy版本是否需要更新
+        // 使用指定或者默认shallowEqual 决定copy版本是否需要更新
         const isEqualCopyState = isEqualState || isEqual;
         if (!isEqualCopyState(state, nextTrackState)) {
           return setState(nextTrackState);
@@ -48,9 +54,20 @@ export default function createStore(opts = {}) {
     return state;
   }
 
-  function setStore(action) {
+  function useDispatch(action) {
     const { type, params } = action;
-    actions[type](params)(dispatch);
+
+    if (!actions) {
+      logError(
+        `actions is not defined, maybe you should use 'dispatch' or specify actions`
+      );
+    }
+
+    if (isAction(type)) {
+      actions[type](params)(dispatch);
+    } else {
+      dispatch(action);
+    }
   }
 
   function plainDispatch(action) {
@@ -78,8 +95,9 @@ export default function createStore(opts = {}) {
   });
 
   const store = {
-    getStore,
-    setStore,
+    useSelector,
+    useDispatch,
+    dispatch,
     subscribe,
     getShareState,
   };

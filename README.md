@@ -10,9 +10,10 @@
    - config
    - getStore
    - create
-     - getStore
+     - useSelector
+     - useDispatch
      - setStore
-     - subscribe(待实现)
+     - subscribe
      - getShareState
 
     
