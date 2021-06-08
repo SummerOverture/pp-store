@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import applyMiddleware from './applyMiddleware';
 import { shallowEqual as isEqual, logError } from './utils';
+import ReactDOM from "react-dom";
 
 export default function createStore(opts = {}) {
   const { initialState, reducer, actions, middlewares } = opts;
@@ -54,22 +55,6 @@ export default function createStore(opts = {}) {
     return state;
   }
 
-  function useDispatch(action) {
-    const { type, params } = action;
-
-    if (!actions) {
-      logError(
-        `actions is not defined, maybe you should use 'dispatch' or specify actions`
-      );
-    }
-
-    if (isAction(type)) {
-      actions[type](params)(dispatch);
-    } else {
-      dispatch(action);
-    }
-  }
-
   function plainDispatch(action) {
     const values = reducer(shareState, action);
     // 使用指定或者默认eaual 决定shareState是否需要更新
@@ -77,9 +62,11 @@ export default function createStore(opts = {}) {
 
     // 共享样本一致则无需通知副本变更
     if (!isEqualShareStore(shareState, values)) {
-      subs.forEach(sub => {
-        sub.update(values);
-      });
+      ReactDOM.unstable_batchedUpdates(() => {
+        subs.forEach(sub => {
+          sub.update(values);
+        });
+      })
 
       shareState = values;
 
@@ -89,17 +76,39 @@ export default function createStore(opts = {}) {
     }
   }
 
-  const dispatch = applyMiddleware(middlewares, {
-    dispatch: plainDispatch,
-    getShareState,
-  });
+  const dispatch = (action) => {
+    const { type, params } = action;
+
+    if (!actions) {
+      logError(
+        `actions is not defined, maybe you should use 'dispatch' or specify actions`
+      );
+    }
+
+    const next = applyMiddleware(middlewares, {
+      dispatch: plainDispatch,
+      getShareState,
+    });
+
+    if (isAction(type)) {
+      actions[type](params)(next);
+    } else {
+      next(action);
+    }
+  };
+
+
 
   const store = {
     useSelector,
-    useDispatch,
     dispatch,
     subscribe,
     getShareState,
+    useStore(selector, isEqualFn) {
+      const state = useSelector(selector, isEqualFn);
+      const setStore = dispatch;
+      return [state, setStore];
+    }
   };
 
   return store;

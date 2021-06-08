@@ -4,10 +4,25 @@ import babel from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 
+const baseConfig = {
+  input: 'src/index.js',
+  external: ['react', /@babel\/runtime/],
+  plugins: [
+    nodeResolve({
+      extensions: ['.ts', '.js'],
+    }),
+    typescript(),
+    babel({
+      babelHelpers: 'runtime',
+    }),
+    commonjs()
+  ],
+}
+
 export default [
   // commonjs
   {
-    input: 'src/index.js',
+
     output: [
       {
         file: 'lib/index.js',
@@ -23,21 +38,9 @@ export default [
         format: 'es',
       },
     ],
-    external: ['react', /@babel\/runtime/],
-    plugins: [
-      nodeResolve({
-        extensions: ['.ts', '.js'],
-      }),
-      commonjs(),
-      typescript(),
-      babel({
-        plugins: [['@babel/plugin-transform-runtime']],
-        babelHelpers: 'runtime',
-      }),
-    ],
+    ...baseConfig
   },
   {
-    input: 'src/index.js',
     output: [
       {
         file: 'lib/index.min.js',
@@ -53,20 +56,7 @@ export default [
         format: 'es',
       },
     ],
-    external: ['react', /@babel\/runtime/],
-    plugins: [
-      nodeResolve({
-        extensions: ['.ts', '.js'],
-      }),
-      commonjs(),
-      typescript({
-        useTsconfigDeclarationDir: true,
-      }),
-      babel({
-        plugins: ['@babel/plugin-transform-runtime'],
-        babelHelpers: 'runtime',
-      }),
-      terser(),
-    ],
+    ...baseConfig,
+    plugins: [...baseConfig.plugins, terser()]
   },
 ];
