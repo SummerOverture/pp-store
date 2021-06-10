@@ -4,7 +4,7 @@ import { shallowEqual as isEqual, logError } from './utils';
 import ReactDOM from "react-dom";
 
 export default function createStore(opts = {}) {
-  const { initialState, reducer, actions, middlewares } = opts;
+  const { name, initialState, reducer, actions, middlewares } = opts;
   let shareState = initialState;
 
   const subs = [];
@@ -86,6 +86,7 @@ export default function createStore(opts = {}) {
     }
 
     const next = applyMiddleware(middlewares, {
+      name,
       dispatch: plainDispatch,
       getShareState,
     });

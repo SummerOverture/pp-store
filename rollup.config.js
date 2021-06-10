@@ -14,6 +14,7 @@ const baseConfig = {
     typescript(),
     babel({
       babelHelpers: 'runtime',
+      skipPreflightCheck: true,
     }),
     commonjs()
   ],
