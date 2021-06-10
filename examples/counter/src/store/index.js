@@ -1,4 +1,4 @@
-import ppStore from 'ppstore';
+import ppStore from 'pp-store';
 
 export const TYPES = {
   SET_COUNT: 'A_SET_COUNT',
@@ -58,6 +58,6 @@ export default counterStore;
 
 export function useCounterStore(selector, isEqualFn) {
   const state = counterStore.useSelector(selector, isEqualFn);
-  const setStore = counterStore.useDispatch;
+  const setStore = counterStore.dispatch;
   return [state, setStore];
 }
