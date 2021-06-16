@@ -1,4 +1,3 @@
-import React, { forwardRef, memo } from 'react';
 import createStore from './createStore';
 import { logError } from './utils';
 
@@ -49,51 +48,4 @@ const ppStore = {
 
 export default ppStore;
 
-
-const defaultOptions = {
-  forwardRef: false
-}
-
-export function inject(mapStore, options = { pure: true }) {
-  const config = {
-    ...defaultOptions,
-    ...options
-  }
-
-
-  return WrapperComp => {
-
-    function Inject({ forwardedRef, ...props }) {
-      const injectProps = mapStore(ppStore.stores);
-      const newProps = { ...injectProps, ...props };
-      // return memo(React.cloneElement(WrapperComp, newProps))
-      console.log(WrapperComp);
-      return <WrapperComp {...newProps} ref={forwardedRef} />;
-    }
-
-
-
-    // TODO forward => memo
-    // const MemoInject = memo(Inject);
-    // return forwardRef((props, ref) => {
-    //   console.log('forwardRef');
-    //   console.log(ref);
-    //   return <MemoInject {...props} forwardedRef={ref}></MemoInject>
-    // })
-
-    let Component = Inject;
-    if (config.forwardRef) {
-      Component = forwardRef((props, ref) => {
-        return <Inject {...props} forwardedRef={ref} />
-      })
-    }
-
-
-    // TODO https://github.com/mridgway/hoist-non-react-statics/blob/master/src/index.js
-    return memo(forwardRef((props, ref) => {
-      console.log('forwardRef');
-      console.log(ref);
-      return <Inject {...props} forwardedRef={ref}></Inject>
-    }))
-  }
-}
+export {inject} from './inject';
