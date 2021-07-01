@@ -6,7 +6,12 @@ import { terser } from 'rollup-plugin-terser';
 
 const baseConfig = {
   input: 'src/index.js',
-  external: ['react', /@babel\/runtime/],
+  external: [
+    'react',
+    'react-dom',
+    'hoist-non-react-statics',
+    /@babel\/runtime/,
+  ],
   plugins: [
     nodeResolve({
       extensions: ['.ts', '.js'],
@@ -16,14 +21,13 @@ const baseConfig = {
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
     }),
-    commonjs()
+    commonjs(),
   ],
-}
+};
 
 export default [
   // commonjs
   {
-
     output: [
       {
         file: 'lib/index.js',
@@ -39,7 +43,7 @@ export default [
         format: 'es',
       },
     ],
-    ...baseConfig
+    ...baseConfig,
   },
   {
     output: [
@@ -58,6 +62,6 @@ export default [
       },
     ],
     ...baseConfig,
-    plugins: [...baseConfig.plugins, terser()]
+    plugins: [...baseConfig.plugins, terser()],
   },
 ];

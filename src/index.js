@@ -2,16 +2,14 @@ import createStore from './createStore';
 import { logError } from './utils';
 
 const ppStore = {
-  // TODO stores最好无法被外界访问 防止误操作
-  // 子store合集
   stores: {},
-  // ppStore 主要用来配置middlewares
   config(opts) {
     ppStore = {
       ...ppStore,
       opts,
     };
   },
+  mode: 'loose',
   // applyMiddleware时传入的中间件， 默认加载logger
   middlewares: ['logger'],
   // store创建函数
@@ -19,10 +17,16 @@ const ppStore = {
     const { stores } = ppStore;
     const { initialState, reducer, actions, name } = opts;
 
-    if (!reducer || !initialState || !name || !actions) {
-      logError(
-        'propertie [reducer]  [initialState]  [actions] [name] is required'
-      );
+    opts.mode = opts.mode || ppStore.mode;
+
+    if (opts.mode === 'strict') {
+      if (!reducer || !actions) {
+        logError('propertie [reducer] [actions] is required');
+      }
+    }
+
+    if (!initialState || !name) {
+      logError('propertie [initialState] [name] is required');
     }
 
     if (stores[name]) {
@@ -48,4 +52,4 @@ const ppStore = {
 
 export default ppStore;
 
-export {inject} from './inject';
+export { inject } from './inject';

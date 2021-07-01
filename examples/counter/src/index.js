@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
 import { render } from 'react-dom';
-import Counter from './counterExample';
-import Test from './Test';
-// import counterStore, { useCounterStore, TYPES } from './store';
+import Counter from './Counter';
+import CountShow from './CountShow';
 
 function App(props) {
   return (
     <div>
-      Test:
-      <Test />
-      <p>====</p>
       <Counter />
+      <CountShow />
     </div>
   );
 }

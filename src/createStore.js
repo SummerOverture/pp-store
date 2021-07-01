@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import applyMiddleware from './applyMiddleware';
 import { shallowEqual as isEqual, logError } from './utils';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 export default function createStore(opts = {}) {
-  const { name, initialState, reducer, actions, middlewares } = opts;
+  const { name, initialState, reducer, actions, middlewares, mode } = opts;
   let shareState = initialState;
 
   const subs = [];
@@ -56,7 +56,12 @@ export default function createStore(opts = {}) {
   }
 
   function plainDispatch(action) {
-    const values = reducer(shareState, action);
+    let values;
+    if (mode === 'strict') {
+      values = reducer(shareState, action);
+    } else {
+      values = typeof action === 'function' ? action(shareState) : action;
+    }
     // 使用指定或者默认eaual 决定shareState是否需要更新
     const isEqualShareStore = opts.isEqual || isEqual;
 
@@ -66,7 +71,7 @@ export default function createStore(opts = {}) {
         subs.forEach(sub => {
           sub.update(values);
         });
-      })
+      });
 
       shareState = values;
 
@@ -76,10 +81,10 @@ export default function createStore(opts = {}) {
     }
   }
 
-  const dispatch = (action) => {
+  const dispatch = action => {
     const { type, params } = action;
 
-    if (!actions) {
+    if (mode === 'strict' && !actions) {
       logError(
         `actions is not defined, maybe you should use 'dispatch' or specify actions`
       );
@@ -91,14 +96,16 @@ export default function createStore(opts = {}) {
       getShareState,
     });
 
-    if (isAction(type)) {
-      actions[type](params)(next);
+    if (mode === 'strict') {
+      if (isAction(type)) {
+        actions[type](params)(next);
+      } else {
+        next(action);
+      }
     } else {
       next(action);
     }
   };
-
-
 
   const store = {
     useSelector,
@@ -109,7 +116,7 @@ export default function createStore(opts = {}) {
       const state = useSelector(selector, isEqualFn);
       const setStore = dispatch;
       return [state, setStore];
-    }
+    },
   };
 
   return store;

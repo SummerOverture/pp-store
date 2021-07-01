@@ -1,8 +1,9 @@
 {
   "name": "pp-store",
   "version": "1.0.0",
-  "description": "轻量级React状态管理工具",
+  "description": "轻量级React状态共享工具",
   "scripts": {
+    "build:es": "babel src --out-dir es",
     "build": "rollup -c rollup.config.js",
     "dev": "rollup -c -w rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -41,10 +42,7 @@
   },
   "peerDependencies": {
     "react": ">= 16.6.3",
-    "react-dom": ">= 16.6.1"
-  },
-  "dependencies": {
-    "deep-diff": "^0.3.5",
+    "react-dom": ">= 16.6.3",
     "hoist-non-react-statics": "^3.3.2"
   }
 }
