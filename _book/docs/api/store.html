@@ -1,0 +1,376 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>createStore · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="ppStore.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../introduce.html">
+            
+                <a href="../introduce.html">
+            
+                    
+                    ppstore 是什么
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../template.html">
+            
+                <a href="../template.html">
+            
+                    
+                    代码结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    [使用]
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../usage/basic.html">
+            
+                <a href="../usage/basic.html">
+            
+                    
+                    基本
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../usage/tips.html">
+            
+                <a href="../usage/tips.html">
+            
+                    
+                    一些小技巧
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    [API 文档]
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="ppStore.html">
+            
+                <a href="ppStore.html">
+            
+                    
+                    ppStore
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.2" data-path="store.html">
+            
+                <a href="store.html">
+            
+                    
+                    createStore
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >createStore</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="store">Store</h1>
+<p>&#x901A;&#x8FC7; ppStore.create &#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x540E;&#x8FD4;&#x56DE;&#x7684;&#x5BF9;&#x8C61;</p>
+<h2 id="store-&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;">Store &#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;</h2>
+<ul>
+<li>useSelector</li>
+<li>dispatch</li>
+<li>subscribe</li>
+<li>getShareState</li>
+<li>useStore</li>
+</ul>
+<h3 id="useselectorselector-equalfn"><a href="">useSelector(selector, equalFn)</a></h3>
+<ul>
+<li>selector[function] (state) =&gt; selectedState &#x7528;&#x6765;&#x83B7;&#x53D6;&#x6307;&#x5B9A;state &#x540C;&#x65F6;&#x4F1A;&#x7528;&#x6765;&#x505A;&#x6027;&#x80FD;&#x4F18;&#x5316;<ul>
+<li>state[any]: &#x63A5;&#x53D7;&#x5F53;&#x524D;store&#x7684;&#x5168;&#x91CF;&#x72B6;&#x6001;</li>
+<li>selectedState[any]: &#x8FD4;&#x56DE;&#x90E8;&#x5206;&#x72B6;&#x6001;</li>
+</ul>
+</li>
+<li><p>equalFn[function] (currentState, nextState) =&gt; isEqual</p>
+<ul>
+<li>currentState[any]: &#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x4F7F;&#x7528;&#x7684;Store&#x72B6;&#x6001;</li>
+<li>nextState[any]: &#x5F53;&#x524D;&#x66F4;&#x65B0;&#x540E;&#x7EC4;&#x4EF6;&#x4F7F;&#x7528;&#x7684;Store&#x72B6;&#x6001;</li>
+<li>isEqual[boolean]: &#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x7684;&#x72B6;&#x6001;</li>
+</ul>
+<h4 id="&#x8FD4;&#x56DE;&#x503C;">&#x8FD4;&#x56DE;&#x503C;</h4>
+<p>&#x8FD4;&#x56DE;selector()&#x8FD4;&#x56DE;&#x540E;&#x7684;&#x503C;</p>
+</li>
+</ul>
+<h3 id="dispatchaction"><a href="">dispatch(action)</a></h3>
+<h4 id="&#x53C2;&#x6570;">&#x53C2;&#x6570;</h4>
+<p>  action</p>
+<ul>
+<li>&#x5BBD;&#x677E;&#x6A21;&#x5F0F;&#x4E0B;action&#x5373;&#x4E3A;payload</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ppStore.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ppStore">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"createStore","level":"1.5.2","depth":2,"previous":{"title":"ppStore","level":"1.5.1","depth":2,"path":"docs/api/ppStore.md","ref":"docs/api/ppStore.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/api/store.md","mtime":"2021-07-02T02:06:05.598Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-02T02:02:08.383Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

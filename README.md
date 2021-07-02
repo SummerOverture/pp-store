@@ -1,4 +1,4 @@
-## pp-store
+# pp-store
   `基于hook的轻量级状态管理模式`
 
   ### Installation
