@@ -1,5 +1,6 @@
 import createStore from './createStore';
 import { logError } from './utils';
+import { createInject } from './inject';
 
 const ppStore = {
   stores: {},
@@ -52,4 +53,4 @@ const ppStore = {
 
 export default ppStore;
 
-export { inject } from './inject';
+export const inject = createInject(ppStore);
