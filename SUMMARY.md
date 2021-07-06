@@ -1,6 +1,6 @@
 # Summary
 
-- [ppstore 是什么](docs/introduce.md)
+- [ppstore 是什么](introduce.md)
 - [代码结构](docs/template.md)
 - [使用]
   - [基本](docs/usage/basic.md)
