@@ -264,36 +264,72 @@
                                 <h1 id="store">Store</h1>
 <p>&#x901A;&#x8FC7; ppStore.create &#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x540E;&#x8FD4;&#x56DE;&#x7684;&#x5BF9;&#x8C61;</p>
 <h2 id="store-&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;">Store &#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;</h2>
-<ul>
-<li>useSelector</li>
-<li>dispatch</li>
-<li>subscribe</li>
-<li>getShareState</li>
-<li>useStore</li>
-</ul>
-<h3 id="useselectorselector-equalfn"><a href="">useSelector(selector, equalFn)</a></h3>
-<ul>
-<li>selector[function] (state) =&gt; selectedState &#x7528;&#x6765;&#x83B7;&#x53D6;&#x6307;&#x5B9A;state &#x540C;&#x65F6;&#x4F1A;&#x7528;&#x6765;&#x505A;&#x6027;&#x80FD;&#x4F18;&#x5316;<ul>
-<li>state[any]: &#x63A5;&#x53D7;&#x5F53;&#x524D;store&#x7684;&#x5168;&#x91CF;&#x72B6;&#x6001;</li>
-<li>selectedState[any]: &#x8FD4;&#x56DE;&#x90E8;&#x5206;&#x72B6;&#x6001;</li>
-</ul>
-</li>
-<li><p>equalFn[function] (currentState, nextState) =&gt; isEqual</p>
-<ul>
-<li>currentState[any]: &#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x4F7F;&#x7528;&#x7684;Store&#x72B6;&#x6001;</li>
-<li>nextState[any]: &#x5F53;&#x524D;&#x66F4;&#x65B0;&#x540E;&#x7EC4;&#x4EF6;&#x4F7F;&#x7528;&#x7684;Store&#x72B6;&#x6001;</li>
-<li>isEqual[boolean]: &#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x7684;&#x72B6;&#x6001;</li>
-</ul>
-<h4 id="&#x8FD4;&#x56DE;&#x503C;">&#x8FD4;&#x56DE;&#x503C;</h4>
-<p>&#x8FD4;&#x56DE;selector()&#x8FD4;&#x56DE;&#x540E;&#x7684;&#x503C;</p>
-</li>
-</ul>
-<h3 id="dispatchaction"><a href="">dispatch(action)</a></h3>
-<h4 id="&#x53C2;&#x6570;">&#x53C2;&#x6570;</h4>
-<p>  action</p>
-<ul>
-<li>&#x5BBD;&#x677E;&#x6A21;&#x5F0F;&#x4E0B;action&#x5373;&#x4E3A;payload</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>&#x5C5E;&#x6027;</th>
+<th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>useSelector</td>
+<td>(selector: <a href="#selector">Selector</a>, equalFn: <a href="#equalfn">EqualFn</a>) =&gt; selectedState</td>
+<td>&#x4ECE; store &#x9009;&#x53D6; selector &#x5BF9;&#x5E94;&#x7684;&#x503C;&#xFF0C;equalFn &#x7528;&#x6765;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0; state&#xFF0C;</td>
+</tr>
+<tr>
+<td>dispatch</td>
+<td>(payload | action)  =&gt; Void</td>
+<td>&#x5BBD;&#x677E;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x4F20;&#x5165;&#x4E00;&#x4E2A; payload &#x76F4;&#x63A5;&#x6539;&#x53D8; store&#xFF0C;&#x4E25;&#x683C;&#x6A21;&#x5F0F;&#x4E0B;&#x6D3E;&#x53D1;&#x4E00;&#x4E2A; action &#x6765;&#x6539;&#x53D8; store</td>
+</tr>
+<tr>
+<td>subscribe</td>
+<td>(listener) =&gt; Void</td>
+<td>&#x8BA2;&#x9605;&#x6570;&#x636E;&#x66F4;&#x65B0;</td>
+</tr>
+<tr>
+<td>getShareState</td>
+<td>() =&gt; state</td>
+<td>&#x83B7;&#x53D6; store &#x7684; state</td>
+</tr>
+<tr>
+<td>useStore</td>
+<td>(selector: <a href="#selector">Selector</a>, equalFn: <a href="#equalfn">EqualFn</a>) =&gt; [selectedState, dispatch]</td>
+<td>&#x83B7;&#x53D6; selectedState &#x548C; dispatch &#x65B9;&#x6CD5;&#xFF0C;&#x662F;&#x5BF9; useSelector &#x548C; dispatch &#x7684;&#x5C01;&#x88C5;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="selector"><a href="#selector">Selector</a></h3>
+<table>
+<thead>
+<tr>
+<th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(state) =&gt; selectedState</td>
+<td>&#x4ECE; store &#x9009;&#x53D6; selector &#x5BF9;&#x5E94;&#x7684;&#x503C;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="equalfn"><a href="#equalfn">EqualFn</a></h3>
+<table>
+<thead>
+<tr>
+<th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(currentState, nextState) =&gt; isEqual</td>
+<td>&#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x7684;&#x72B6;&#x6001;</td>
+</tr>
+</tbody>
+</table>
 
                                 
                                 </section>
@@ -333,7 +369,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"createStore","level":"1.5.2","depth":2,"previous":{"title":"ppStore","level":"1.5.1","depth":2,"path":"docs/api/ppStore.md","ref":"docs/api/ppStore.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/api/store.md","mtime":"2021-07-02T02:06:05.598Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-02T02:02:08.383Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"createStore","level":"1.5.2","depth":2,"previous":{"title":"ppStore","level":"1.5.1","depth":2,"path":"docs/api/ppStore.md","ref":"docs/api/ppStore.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/api/store.md","mtime":"2021-07-06T02:17:58.168Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-06T01:50:26.089Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

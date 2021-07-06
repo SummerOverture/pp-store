@@ -4,31 +4,22 @@
 
 ## Store 的一些方法
 
-- useSelector
-- dispatch
-- subscribe
-- getShareState
-- useStore
+| 属性          | <div style="width: 350px">类型</div>                                                         | 描述                              |
+| ------------- | ------------------------------------------------------------ | --------------------------------- |
+| useSelector   | (selector: [Selector](#selector), equalFn: [EqualFn](#equalfn)) => selectedState  | 从 store 选取 selector 对应的值，equalFn 用来决定是否需要更新 state，           |
+| dispatch      | (payload &#124; action)  => Void                     | 宽松模式下，传入一个 payload 直接改变 store，严格模式下派发一个 action 来改变 store |
+| subscribe     | (listener) => Void                                       | 订阅数据更新             |
+| getShareState | () => state                                       | 获取 store 的 state         |
+| useStore      | (selector: [Selector](#selector), equalFn: [EqualFn](#equalfn)) => [selectedState, dispatch]       | 获取 selectedState 和 dispatch 方法，是对 useSelector 和 dispatch 的封装        |
 
-### [useSelector(selector, equalFn)]()
-  - selector[function] (state) => selectedState 用来获取指定state 同时会用来做性能优化
-    - state[any]: 接受当前store的全量状态
-    - selectedState[any]: 返回部分状态
-  - equalFn[function] (currentState, nextState) => isEqual
-    - currentState[any]: 当前组件使用的Store状态
-    - nextState[any]: 当前更新后组件使用的Store状态
-    - isEqual[boolean]: 是否需要更新当前组件的状态
+### [Selector](#selector)
 
-  #### 返回值
-  返回selector()返回后的值
+| <div style="width: 350px">类型</div>                        | 描述                              |
+| ------------------------------------------------------------ | --------------------------------- |
+| (state) => selectedState  | 从 store 选取 selector 对应的值   |
 
-### [dispatch(action)]()
-  #### 参数
-  action
-  - 宽松模式下action即为payload
+### [EqualFn](#equalfn)
 
-
-
-
-
-
+|  <div style="width: 350px">类型</div>                        | 描述                              |
+| ------------------------------------------------------------ | --------------------------------- |
+| (currentState, nextState) => isEqual  | 是否需要更新当前组件的状态           |

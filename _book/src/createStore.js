@@ -92,6 +92,7 @@ export default function createStore(opts = {}) {
 
     const next = applyMiddleware(middlewares, {
       name,
+      mode,
       dispatch: plainDispatch,
       getShareState,
     });

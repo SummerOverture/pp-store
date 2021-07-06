@@ -4,29 +4,21 @@
 
 ## ppStore 的一些方法
 
-- getStore
-- config
-- create
+| 属性          | <div style="width: 360px">类型</div>                           | 描述                              |
+| ------------- | ------------------------------------------------------------ | --------------------------------- |
+| getStore   | (name?: String) => <a href="/docs/api/store.html">Store</a> &#124; {[name: string]: <a href="/docs/api/store.html">Store</a>}  | 返回对应 name 的 store 或者所有 store           |
+| config      | (options: [StoreOptions](#storeoptions)) => Void                     | 配置 ppStore 的一些属性，如默认的 middlewares 和 mode |
+| create     | (options: [StoreOptions](#storeoptions)) => <a href="/docs/api/store.html">Store</a>                                       | 创建 store 实例  |
 
-### [getStore(name?)]()
-  name为可选参数
-  返回对应name的store或者所有store
+### [StoreOptions](#storeoptions)
 
-  #### 返回值
-  Object: 单个Store实例或者包含所有Store的对象
+创建store的参数 在loose模式下，name和initialState是必需的
 
-### [Config(opts)]()
-  配置ppStore的一些属性，如默认的middlewares和mode
-  - opts
-    - middlewares[array]:
-    - mode[enum]: 'loose'或'strict', 默认为loose
-  #### 返回值
-  --
-
-### [create(opts)]()
-  创建store的参数
-  在loose模式下，name和initialState是必需的
-  - opts
-    - `name`[string]: store的名称
-    - `initialState`[any]: 初始值
-
+| 属性          | <div style="width: 350px">类型</div>                          | 描述                              | 默认值                              |
+| ------------- | ------------------------------------------------------------ | --------------------------------- | --------------------------------- |
+| name   | String  | store 的名称           | -           |
+| mode   | Enum {'strict', 'loose'}  | store 的模式           | 'loose'           |
+| initialState   | any  | store 初始值           | -           |
+| middlewares   | Array&lt;String &#124; Function&gt;  | 中间件，自带的中间件可以直接用字符串，如：logger。其他需要自己扩展           | ['logger']           |
+| reducer      | (state, action) => nextState                     | reducer | - |
+| actions     |                                        | actions         | - |
