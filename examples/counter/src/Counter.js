@@ -35,16 +35,16 @@ export default function Counter(props) {
   };
 
   return (
-    <p>
+    <>
       <h2>Counter</h2>
       <p>
-        current component render times (will not render if store.loading
-        change): {renderTimes.current}
+        current component render times (will render if store.loading change):{' '}
+        {renderTimes.current}
       </p>
       <p>current loading: {JSON.stringify(counter.loading)}</p>
       Clicked: {counter.count} times <button onClick={onIncrement}>+</button>{' '}
       <button onClick={onDecrement}>-</button>{' '}
       <button onClick={incrementAsync}>Increment async</button>
-    </p>
+    </>
   );
 }

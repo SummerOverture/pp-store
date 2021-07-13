@@ -1,5 +1,5 @@
 import createStore from './createStore';
-import { logError } from './utils';
+import { logError, logWarn } from './utils';
 import { createInject } from './inject';
 
 const ppStore = {
@@ -20,18 +20,18 @@ const ppStore = {
 
     opts.mode = opts.mode || ppStore.mode;
 
-    if (opts.mode === 'strict') {
-      if (!reducer || !actions) {
-        logError('propertie [reducer] [actions] is required');
-      }
-    }
+    // if (opts.mode === 'strict') {
+    //   if (!reducer || !actions) {
+    //     logError('propertie [reducer] [actions] is required');
+    //   }
+    // }
 
     if (!initialState || !name) {
       logError('propertie [initialState] [name] is required');
     }
 
     if (stores[name]) {
-      logError(`store ${name} exist, please check the store name`);
+      logWarn(`store ${name} exist, please check the store name`);
     }
 
     if (!opts.middlewares) {
@@ -51,6 +51,10 @@ const ppStore = {
   },
 };
 
-export default ppStore;
-
 export const inject = createInject(ppStore);
+
+export const create = ppStore.create;
+
+export const getStore = ppStore.getStore;
+
+export default ppStore;

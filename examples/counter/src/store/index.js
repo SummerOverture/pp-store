@@ -13,7 +13,6 @@ const counterStore = ppStore.create({
 counterStore.actions = {
   increment() {
     return counterStore.dispatch(prev => {
-      console.log(prev);
       return {
         ...prev,
         count: prev.count + 1,

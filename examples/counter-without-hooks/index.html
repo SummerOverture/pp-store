@@ -3,6 +3,8 @@
 
 <head>
   <title>ppstore basic example</title>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="../../dist/index.min.js"></script>
 </head>
 
@@ -18,12 +20,6 @@
   </div>
   <script>
 
-    const TYPES = {
-      SET_COUNT: 'SET_COUNT',
-      DECRESE: 'DECRESE',
-      INCRESE: 'INCRESE',
-    };
-
     const sleep = s =>
       new Promise(res => {
         setTimeout(() => {
@@ -31,24 +27,8 @@
         }, s);
       });
 
-    const actions = {
-    };
-
-    const reducer = (state, action) => {
-      switch (action.type) {
-        case 'INCRESE':
-          return state + 1;
-        case 'DECRESE':
-          return state - 1;
-        default:
-          throw new Error();
-      }
-    };
-
     const counterStore = ppStore.create({
       initialState: 1,
-      reducer,
-      actions,
       name: 'counterStore'
     });
     const store = {
@@ -73,25 +53,33 @@
 
     document.getElementById('increment')
       .addEventListener('click', function() {
-        store.dispatch({ type: TYPES.INCRESE })
+        store.dispatch((prev) => {
+          return prev + 1
+        })
       })
 
     document.getElementById('decrement')
       .addEventListener('click', function() {
-        store.dispatch({ type: TYPES.DECRESE })
+        store.dispatch((prev) => {
+          return prev - 1
+        })
       })
 
     document.getElementById('incrementIfOdd')
       .addEventListener('click', function() {
         if (store.getState() % 2 !== 0) {
-          store.dispatch({ type: TYPES.INCRESE })
+          store.dispatch((prev) => {
+            return prev + 1
+          })
         }
       })
 
     document.getElementById('incrementAsync')
       .addEventListener('click', function() {
         setTimeout(function() {
-          store.dispatch({ type: TYPES.INCRESE })
+          store.dispatch((prev) => {
+            return prev + 1
+          })
         }, 1000)
       })
   </script>
