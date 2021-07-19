@@ -1,6 +1,6 @@
-node_modules
+package-lock.json
+rollup.config.js
+tsconfig.json
 
-lib
-es
-dist
-types
+examples/
+src/

@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>ppStore · GitBook</title>
+        <title>createStore · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,8 +57,8 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="store.html" />
     
+    <link rel="prev" href="ppStore.html" />
     
 
     </head>
@@ -172,7 +172,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.4.1" data-path="ppStore.html">
+        <li class="chapter " data-level="1.4.1" data-path="ppStore.html">
             
                 <a href="ppStore.html">
             
@@ -185,7 +185,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.2" data-path="store.html">
+        <li class="chapter active" data-level="1.4.2" data-path="store.html">
             
                 <a href="store.html">
             
@@ -233,7 +233,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >ppStore</a>
+        <a href="../.." >createStore</a>
     </h1>
 </div>
 
@@ -248,82 +248,72 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="ppstore">ppStore</h1>
-<p>&#x901A;&#x8FC7; ppStore.create &#x521B;&#x5EFA;&#x7684;&#x5B9E;&#x4F8B;&#x90FD;&#x4F1A;&#x6302;&#x8F7D;&#x5728; ppStore &#x5BF9;&#x8C61;&#x4E0A;&#xFF0C;&#x5373; ppStore &#x662F;&#x62E5;&#x6709;&#x6240;&#x6709; Store &#x7684;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;</p>
-<h2 id="ppstore-&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;">ppStore &#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;</h2>
-<table>
-<thead>
-<tr>
-<th>&#x5C5E;&#x6027;</th>
-<th><div style="width: 360px">&#x7C7B;&#x578B;</div></th>
-<th>&#x63CF;&#x8FF0;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>getStore</td>
-<td>(name?: String) =&gt; <a href="store.html">Store</a> | {[name: string]: <a href="store.html">Store</a>}</td>
-<td>&#x8FD4;&#x56DE;&#x5BF9;&#x5E94; name &#x7684; store &#x6216;&#x8005;&#x6240;&#x6709; store</td>
-</tr>
-<tr>
-<td>config</td>
-<td>(options: <a href="#storeoptions">StoreOptions</a>) =&gt; Void</td>
-<td>&#x914D;&#x7F6E; ppStore &#x7684;&#x4E00;&#x4E9B;&#x5C5E;&#x6027;&#xFF0C;&#x5982;&#x9ED8;&#x8BA4;&#x7684; middlewares &#x548C; mode</td>
-</tr>
-<tr>
-<td>create</td>
-<td>(options: <a href="#storeoptions">StoreOptions</a>) =&gt; <a href="store.html">Store</a></td>
-<td>&#x521B;&#x5EFA; store &#x5B9E;&#x4F8B;</td>
-</tr>
-</tbody>
-</table>
-<h3 id="storeoptions"><a href="#storeoptions">StoreOptions</a></h3>
-<p>&#x521B;&#x5EFA;store&#x7684;&#x53C2;&#x6570; &#x5728;loose&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;name&#x548C;initialState&#x662F;&#x5FC5;&#x9700;&#x7684;</p>
+                                <h1 id="store">Store</h1>
+<p>&#x901A;&#x8FC7; ppStore.create &#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x540E;&#x8FD4;&#x56DE;&#x7684;&#x5BF9;&#x8C61;</p>
+<h2 id="store-&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;">Store &#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;</h2>
 <table>
 <thead>
 <tr>
 <th>&#x5C5E;&#x6027;</th>
 <th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
 <th>&#x63CF;&#x8FF0;</th>
-<th>&#x9ED8;&#x8BA4;&#x503C;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>name</td>
-<td>String</td>
-<td>store &#x7684;&#x540D;&#x79F0;</td>
-<td>-</td>
+<td>useSelector</td>
+<td>(selector: <a href="#selector">Selector</a>, equalFn: <a href="#equalfn">EqualFn</a>) =&gt; selectedState</td>
+<td>&#x4ECE; store &#x9009;&#x53D6; selector &#x5BF9;&#x5E94;&#x7684;&#x503C;&#xFF0C;equalFn &#x7528;&#x6765;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0; state&#xFF0C;</td>
 </tr>
 <tr>
-<td>mode</td>
-<td>Enum {&apos;strict&apos;, &apos;loose&apos;}</td>
-<td>store &#x7684;&#x6A21;&#x5F0F;</td>
-<td>&apos;loose&apos;</td>
+<td>dispatch</td>
+<td>(payload | action)  =&gt; Void</td>
+<td>&#x5BBD;&#x677E;&#x6A21;&#x5F0F;&#x4E0B;&#xFF0C;&#x4F20;&#x5165;&#x4E00;&#x4E2A; payload &#x76F4;&#x63A5;&#x6539;&#x53D8; store&#xFF0C;&#x4E25;&#x683C;&#x6A21;&#x5F0F;&#x4E0B;&#x6D3E;&#x53D1;&#x4E00;&#x4E2A; action &#x6765;&#x6539;&#x53D8; store</td>
 </tr>
 <tr>
-<td>initialState</td>
-<td>any</td>
-<td>store &#x521D;&#x59CB;&#x503C;</td>
-<td>-</td>
+<td>subscribe</td>
+<td>(listener) =&gt; Void</td>
+<td>&#x8BA2;&#x9605;&#x6570;&#x636E;&#x66F4;&#x65B0;</td>
 </tr>
 <tr>
-<td>middlewares</td>
-<td>Array&lt;String | Function&gt;</td>
-<td>&#x4E2D;&#x95F4;&#x4EF6;&#xFF0C;&#x81EA;&#x5E26;&#x7684;&#x4E2D;&#x95F4;&#x4EF6;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5982;&#xFF1A;logger&#x3002;&#x5176;&#x4ED6;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x6269;&#x5C55;</td>
-<td>[&apos;logger&apos;]</td>
+<td>getShareState</td>
+<td>() =&gt; state</td>
+<td>&#x83B7;&#x53D6; store &#x7684; state</td>
 </tr>
 <tr>
-<td>reducer</td>
-<td>(state, action) =&gt; nextState</td>
-<td>reducer</td>
-<td>-</td>
+<td>useStore</td>
+<td>(selector: <a href="#selector">Selector</a>, equalFn: <a href="#equalfn">EqualFn</a>) =&gt; [selectedState, dispatch]</td>
+<td>&#x83B7;&#x53D6; selectedState &#x548C; dispatch &#x65B9;&#x6CD5;&#xFF0C;&#x662F;&#x5BF9; useSelector &#x548C; dispatch &#x7684;&#x5C01;&#x88C5;</td>
 </tr>
+</tbody>
+</table>
+<h3 id="selector"><a href="#selector">Selector</a></h3>
+<table>
+<thead>
 <tr>
-<td>actions</td>
-<td></td>
-<td>actions</td>
-<td>-</td>
+<th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(state) =&gt; selectedState</td>
+<td>&#x4ECE; store &#x9009;&#x53D6; selector &#x5BF9;&#x5E94;&#x7684;&#x503C;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="equalfn"><a href="#equalfn">EqualFn</a></h3>
+<table>
+<thead>
+<tr>
+<th><div style="width: 350px">&#x7C7B;&#x578B;</div></th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(currentState, nextState) =&gt; isEqual</td>
+<td>&#x662F;&#x5426;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7EC4;&#x4EF6;&#x7684;&#x72B6;&#x6001;</td>
 </tr>
 </tbody>
 </table>
@@ -354,10 +344,10 @@
 
             
                 
-                
-                <a href="store.html" class="navigation navigation-next navigation-unique" aria-label="Next page: createStore">
-                    <i class="fa fa-angle-right"></i>
+                <a href="ppStore.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ppStore">
+                    <i class="fa fa-angle-left"></i>
                 </a>
+                
                 
             
         
@@ -366,7 +356,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ppStore","level":"1.4.1","depth":2,"next":{"title":"createStore","level":"1.4.2","depth":2,"path":"docs/api/store.md","ref":"docs/api/store.md","articles":[]},"previous":{"title":"[API 文档]","level":"1.4","depth":1,"ref":"","articles":[{"title":"ppStore","level":"1.4.1","depth":2,"path":"docs/api/ppStore.md","ref":"docs/api/ppStore.md","articles":[]},{"title":"createStore","level":"1.4.2","depth":2,"path":"docs/api/store.md","ref":"docs/api/store.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduce.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/api/ppStore.md","mtime":"2021-07-19T02:55:42.998Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-19T02:59:24.672Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"createStore","level":"1.4.2","depth":2,"previous":{"title":"ppStore","level":"1.4.1","depth":2,"path":"docs/api/ppStore.md","ref":"docs/api/ppStore.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduce.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"docs/api/store.md","mtime":"2021-07-19T03:14:42.522Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-19T03:21:00.245Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
