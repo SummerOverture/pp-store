@@ -1,6 +1,6 @@
 {
   "name": "pp-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "轻量级React状态共享工具",
   "scripts": {
     "build:es": "babel src --out-dir es",
