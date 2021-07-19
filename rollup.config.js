@@ -2,6 +2,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
+import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 
 const baseConfig = {
@@ -34,11 +35,6 @@ export default [
         format: 'cjs',
       },
       {
-        file: 'dist/index.js',
-        format: 'umd',
-        name: 'Ppstore',
-      },
-      {
         file: 'es/index.js',
         format: 'es',
       },
@@ -46,22 +42,34 @@ export default [
     ...baseConfig,
   },
   {
-    output: [
-      {
-        file: 'lib/index.min.js',
-        format: 'cjs',
-      },
-      {
-        file: 'dist/index.min.js',
-        format: 'umd',
-        name: 'ppStore',
-      },
-      {
-        file: 'es/index.min.js',
-        format: 'es',
-      },
-    ],
     ...baseConfig,
-    plugins: [...baseConfig.plugins, terser()],
+    plugins: [
+      ...baseConfig.plugins,
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+      }),
+    ],
+    external: ['react', 'react-dom'],
+    output: {
+      file: 'dist/index.js',
+      format: 'umd',
+      name: 'ppStore',
+    },
+  },
+  {
+    ...baseConfig,
+    plugins: [
+      ...baseConfig.plugins,
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      terser(),
+    ],
+    external: ['react', 'react-dom'],
+    output: {
+      file: 'dist/index.min.js',
+      format: 'umd',
+      name: 'ppStore',
+    },
   },
 ];
