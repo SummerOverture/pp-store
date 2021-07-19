@@ -1,45 +1,60 @@
-import React, { useState, useEffect } from 'react';
-
-import _ from 'lodash';
 import createStore from './createStore';
+import { logError, logWarn } from './utils';
+import { createInject } from './inject';
 
-// 默认比较函数
-const YsStore = {
-	stores: {},
-	config(opts) {
-		YsStore = {
-			...YsStore,
-			opts,
-		};
-	},
-	middlewares: ['logger'],
-	create(opts) {
-		const { stores } = YsStore;
-		const { reducer, initialState, name } = opts;
+const ppStore = {
+  stores: {},
+  config(opts) {
+    ppStore = {
+      ...ppStore,
+      opts,
+    };
+  },
+  mode: 'loose',
+  // applyMiddleware时传入的中间件， 默认加载logger
+  middlewares: ['logger'],
+  // store创建函数
+  create(opts) {
+    const { stores } = ppStore;
+    const { initialState, reducer, actions, name } = opts;
 
-		if (!reducer || !initialState || !name) {
-			throw new Error('propertie [reducer 、 initialState 、 name] is required');
-		}
+    opts.mode = opts.mode || ppStore.mode;
 
-		if (stores[name]) {
-			throw new Error(`store ${name} exist, please check the store name`);
-		}
+    // if (opts.mode === 'strict') {
+    //   if (!reducer || !actions) {
+    //     logError('propertie [reducer] [actions] is required');
+    //   }
+    // }
 
-		if (!opts.middlewares) {
-			opts.middlewares = YsStore.middlewares;
-		}
+    if (!initialState || !name) {
+      logError('propertie [initialState] [name] is required');
+    }
 
-		const thisStore = createStore(opts);
+    if (stores[name]) {
+      logWarn(`store ${name} exist, please check the store name`);
+    }
 
-		stores[name] = thisStore;
-		return thisStore;
-	},
-	getStore(name) {
-		if (!name) {
-			return YsStore.stores;
-		}
-		return YsStore.stores[name];
-	},
+    if (!opts.middlewares) {
+      opts.middlewares = ppStore.middlewares;
+    }
+
+    const thisStore = createStore(opts);
+
+    stores[name] = thisStore;
+    return thisStore;
+  },
+  getStore(name) {
+    if (!name) {
+      return ppStore.stores;
+    }
+    return ppStore.stores[name];
+  },
 };
 
-export default YsStore;
+export const inject = createInject(ppStore);
+
+export const create = ppStore.create;
+
+export const getStore = ppStore.getStore;
+
+export default ppStore;

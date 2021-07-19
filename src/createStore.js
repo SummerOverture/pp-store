@@ -1,73 +1,124 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import applyMiddleware from './applyMiddleware';
-
-import _ from 'lodash';
-
-// 默认比较函数
-const isEqual = _.isEqual;
+import { shallowEqual as isEqual, logError } from './utils';
+import ReactDOM from 'react-dom';
 
 export default function createStore(opts = {}) {
-	const { initialState, reducer, actions, middlewares } = opts;
-	let shareState = initialState;
-	const subs = [];
+  const { name, initialState, reducer, actions, middlewares, mode } = opts;
+  let shareState = initialState;
 
-	function getShareState() {
-		return shareState;
-	}
+  const subs = [];
+  const listeners = [];
 
-	/**
-	 * @params {selector} 用来获取指定state 同时会用来做性能优化
-	 * @params {isEqualState} 复本的更新策略函数
-	 */
-	function getStore({ selector = (state) => state, isEqualState }) {
-		const trackState = selector(shareState);
-		const [state, setState] = useState(trackState);
-		const sub = {
-			update: (value) => {
-				const nextTrackState = selector(value);
-				// 使用指定或者默认eaual算法 决定copy版本是否需要更新
-				const isEqualCopyState = isEqualState || isEqual;
-				if (!isEqualCopyState(state, nextTrackState)) {
-					return setState(nextTrackState);
-				}
-			},
-		};
-		useEffect(() => {
-			subs.push(sub);
-			return () => subs.splice(subs.indexOf(sub), 1);
-		});
+  function getShareState() {
+    return shareState;
+  }
 
-		return state;
-	}
+  function subscribe(sub) {
+    listeners.push(sub);
 
-	async function setStore(action) {
-		const { type, params } = action;
-		await actions[type](params)(dispatch);
-	}
+    function unSubscribe() {
+      listeners.splice(listeners.indexOf(sub), 1);
+    }
 
-	function plainDispatch(action) {
-		const values = reducer(shareState, action);
-		// 使用指定或者默认eaual 决定shareState是否需要更新
-		const isEqualShareStore = opts.isEqual || isEqual;
+    return unSubscribe;
+  }
 
-		// 共享样本一致则无需通知副本变更
-		if (!isEqualShareStore(shareState, values)) {
-			subs.forEach((sub) => {
-				sub.update(values);
-			});
+  function isAction(type) {
+    if (type.startsWith('A') || type in actions) {
+      return true;
+    }
+  }
 
-			shareState = values;
-		}
-	}
+  /**
+   * @params {selector} 用来获取指定state 同时会用来做性能优化
+   * @params {isEqualState} 复本的更新策略函数
+   */
+  function useSelector(selector = state => state, isEqualState) {
+    const trackState = selector(shareState);
+    const [state, setState] = useState(trackState);
+    const sub = {
+      update: value => {
+        const nextTrackState = selector(value);
+        // 使用指定或者默认shallowEqual 决定copy版本是否需要更新
+        const isEqualCopyState = isEqualState || isEqual;
+        if (!isEqualCopyState(state, nextTrackState)) {
+          return setState(nextTrackState);
+        }
+      },
+    };
+    useEffect(() => {
+      subs.push(sub);
+      return () => subs.splice(subs.indexOf(sub), 1);
+    });
 
-	const dispatch = applyMiddleware(middlewares, {
-		dispatch: plainDispatch,
-		getShareState,
-	});
+    return state;
+  }
 
-	return {
-		getStore,
-		setStore,
-		getShareState,
-	};
+  function plainDispatch(action) {
+    let values;
+    if (mode === 'strict') {
+      values = reducer(shareState, action);
+    } else {
+      values = typeof action === 'function' ? action(shareState) : action;
+    }
+    // 使用指定或者默认eaual 决定shareState是否需要更新
+    const isEqualShareStore = opts.isEqual || isEqual;
+
+    // 共享样本一致则无需通知副本变更
+    if (!isEqualShareStore(shareState, values)) {
+      ReactDOM.unstable_batchedUpdates(() => {
+        subs.forEach(sub => {
+          sub.update(values);
+        });
+      });
+
+      shareState = values;
+
+      listeners.forEach(sub => {
+        sub();
+      });
+    }
+  }
+
+  const dispatch = action => {
+    const { type, params } = action;
+
+    if (mode === 'strict' && !actions) {
+      logError(
+        `actions is not defined, maybe you should use 'dispatch' or specify actions`
+      );
+    }
+
+    const next = applyMiddleware(middlewares, {
+      name,
+      mode,
+      dispatch: plainDispatch,
+      getShareState,
+    });
+
+    if (mode === 'strict') {
+      if (isAction(type)) {
+        actions[type](params)(next);
+      } else {
+        next(action);
+      }
+    } else {
+      next(action);
+    }
+  };
+
+  const store = {
+    useSelector,
+    dispatch,
+    subscribe,
+    getShareState,
+    useStore(selector, isEqualFn) {
+      const state = useSelector(selector, isEqualFn);
+      const setStore = dispatch;
+      return [state, setStore];
+    },
+  };
+
+  return store;
 }
