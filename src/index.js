@@ -1,18 +1,21 @@
 import createStore from './createStore';
-import { logError, logWarn } from './utils';
+import { logError, logWarn, __DEV__ } from './utils';
 import { createInject } from './inject';
 
 const ppStore = {
   stores: {},
   config(opts) {
-    ppStore = {
-      ...ppStore,
-      opts,
-    };
+    if (opts.mode) {
+      ppStore.mode = opts.mode;
+    }
+
+    if (opts.middlewares) {
+      ppStore.middlewares = opts.middlewares;
+    }
   },
   mode: 'loose',
   // applyMiddleware时传入的中间件， 默认加载logger
-  middlewares: ['logger'],
+  middlewares: __DEV__ ? ['logger'] : [],
   // store创建函数
   create(opts) {
     const { stores } = ppStore;

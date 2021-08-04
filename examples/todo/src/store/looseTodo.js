@@ -7,7 +7,6 @@ const initialState = {
 const todoStore = ppStore.create({
   initialState,
   name: 'looseTodoStore',
-  mode: 'loose',
 });
 
 export default todoStore;
