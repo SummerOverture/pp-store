@@ -3,8 +3,6 @@
 
 <head>
   <title>ppstore basic example</title>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <script src="../../dist/index.js"></script>
 </head>
 
@@ -37,11 +35,6 @@
       dispatch: counterStore.dispatch,
     };
 
-    // export function useCounterStore({ selector, isEqualState }) {
-    //   const state = counterStore.getStore({ selector, isEqualState });
-    //   const setStore = counterStore.setStore;
-    //   return [state, setStore];
-    // }
     var valueEl = document.getElementById('value')
 
     function render() {

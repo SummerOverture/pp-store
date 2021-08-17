@@ -1,3 +1,5 @@
+export const __DEV__ = process.env.NODE_ENV !== 'production';
+
 function is(x: any, y: any) {
   return (x === y && (x !== 0 || 1 / x === 1 / y)) || (x !== x && y !== y);
 }
@@ -40,9 +42,9 @@ export function shallowEqual(objA: any, objB: any): boolean {
 }
 
 export function logError(msg: string) {
-  throw new Error(`[ppstore error]: ${msg}`);
+  if (__DEV__) throw new Error(`[ppstore error]: ${msg}`);
 }
 
 export function logWarn(msg: string) {
-  console.warn(`[ppstore warn]: ${msg}`);
+  if (__DEV__) console.warn(`[ppstore warn]: ${msg}`);
 }

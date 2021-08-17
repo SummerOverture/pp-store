@@ -50,7 +50,7 @@ export default function createStore(opts = {}) {
     useEffect(() => {
       subs.push(sub);
       return () => subs.splice(subs.indexOf(sub), 1);
-    });
+    }, []);
 
     return state;
   }
@@ -67,11 +67,13 @@ export default function createStore(opts = {}) {
 
     // 共享样本一致则无需通知副本变更
     if (!isEqualShareStore(shareState, values)) {
-      ReactDOM.unstable_batchedUpdates(() => {
-        subs.forEach(sub => {
-          sub.update(values);
+      if (subs.length > 0) {
+        ReactDOM.unstable_batchedUpdates(() => {
+          subs.forEach(sub => {
+            sub.update(values);
+          });
         });
-      });
+      }
 
       shareState = values;
 
@@ -90,12 +92,15 @@ export default function createStore(opts = {}) {
       );
     }
 
-    const next = applyMiddleware(middlewares, {
-      name,
-      mode,
-      dispatch: plainDispatch,
-      getShareState,
-    });
+    let next = plainDispatch;
+    if (middlewares.length > 0) {
+      next = applyMiddleware(middlewares, {
+        name,
+        mode,
+        dispatch: plainDispatch,
+        getShareState,
+      });
+    }
 
     if (mode === 'strict') {
       if (isAction(type)) {
